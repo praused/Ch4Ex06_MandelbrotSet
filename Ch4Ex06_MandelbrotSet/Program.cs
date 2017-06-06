@@ -11,43 +11,64 @@ namespace Ch4Ex06_MandelbrotSet
         static void Main(string[] args)
         {
             double realCoord, imagCoord;
+            double realMax = 1.77;
+            double realMin = -0.6;
+            double imagMax = -1.2;
+            double imagMin = 1.2;
+            double realStep, imagStep;
             double realTemp, imagTemp, realTemp2, arg;
             int iterations;
-            for (imagCoord = 1.2; imagCoord >= -1.2; imagCoord -= 0.05)
+            while (true)
             {
-                for (realCoord = -0.6; realCoord <= 1.77; realCoord += 0.03)
+                realStep = (realMax - realMin) / 79;
+                imagStep = (imagMax - imagMin) / 48;
+                for (imagCoord = imagMin; imagCoord >= imagMax; imagCoord += imagStep)
                 {
-                    iterations = 0;
-                    realTemp = realCoord;
-                    imagTemp = imagCoord;
-                    arg = (realCoord * realCoord) + (imagCoord * imagCoord);
-                    while ((arg < 4) && (iterations < 40))
+                    for (realCoord = realMin; realCoord <= realMax; realCoord += realStep)
                     {
-                        realTemp2 = (realTemp * realTemp) - (imagTemp * imagTemp) - realCoord;
-                        imagTemp = (2 * realTemp * imagTemp) - imagCoord;
-                        realTemp = realTemp2;
-                        arg = (realTemp * realTemp) + (imagTemp * imagTemp);
-                        iterations += 1;
+                        iterations = 0;
+                        realTemp = realCoord;
+                        imagTemp = imagCoord;
+                        arg = (realCoord * realCoord) + (imagCoord * imagCoord);
+                        while ((arg < 4) && (iterations < 40))
+                        {
+                            realTemp2 = (realTemp * realTemp) - (imagTemp * imagTemp) - realCoord;
+                            imagTemp = (2 * realTemp * imagTemp) - imagCoord;
+                            realTemp = realTemp2;
+                            arg = (realTemp * realTemp) + (imagTemp * imagTemp);
+                            iterations += 1;
+                        }
+                        switch (iterations % 4)
+                        {
+                            case 0:
+                                Console.Write(".");
+                                break;
+                            case 1:
+                                Console.Write("o");
+                                break;
+                            case 2:
+                                Console.Write("O");
+                                break;
+                            case 3:
+                                Console.Write("@");
+                                break;
+                        }
                     }
-                    switch (iterations % 4)
-                    {
-                        case 0:
-                            Console.Write(".");
-                            break;
-                        case 1:
-                            Console.Write("o");
-                            break;
-                        case 2:
-                            Console.Write("O");
-                            break;
-                        case 3:
-                            Console.Write("@");
-                            break;
-                    }
+                    Console.Write("\n");
                 }
-                Console.Write("\n");
+                Console.WriteLine("Current Limits:");
+                Console.WriteLine($"realCoord from {realMin} to {realMax}");
+                Console.WriteLine($"imagCoord from {imagMin} to {imagMax}");
+                Console.WriteLine("Enter new limits:");
+                Console.WriteLine("realCoord from:");
+                realMin = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("realCoord to:");
+                realMax = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("imagCoord from:");
+                imagMin = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("imagCoord to:");
+                imagMax = Convert.ToDouble(Console.ReadLine());
             }
-            Console.ReadKey();
         }
     }
 }
